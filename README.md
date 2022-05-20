@@ -2,6 +2,21 @@
 Нужно асинхронно передавать в UserActionProcessor сообщения которые мы получаем в 
 rest метод 127.0.0.1:8080/userAction
 
+Если вы добавли свой ключ в гитлаб, скачать репозиторий можно коммандой
+```
+git clone git@gitlab.slurm.io:kafkafordevelopers/slurm.git kafkafordevelopers
+```
+
+Если ключ не добавляли, то такой командой - но вы не сможите пушать код для ревью.
+```
+git clone https://gitlab.slurm.io/kafkafordevelopers/slurm.git kafkafordevelopers
+```
+
+Скачать актуальный main.
+```
+git fetch --progress --prune --tags origin &&  git checkout --track -B master remotes/origin/master
+```
+
 Для того чтобы запустить Kafka, перейдите в директорию проекта java/go и выполните
 
 ```
