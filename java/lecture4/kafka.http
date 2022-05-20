@@ -1,0 +1,6 @@
+POST http://127.0.0.1:8080/userAction
+Content-type: application/json; charset=utf-8
+
+ {"message_id": "11", "user_id": "us1", "action_type": 1}
+
+

@@ -20,10 +20,7 @@ public class UserActionSerializer implements Serializer<UserAction> {
 
     @Override
     public byte[] serialize(String topic, UserAction data) {
-        try {
-            return objectMapper.writeValueAsBytes(data);
-        } catch (JsonProcessingException e) {
-            return new byte[0];
-        }
+        // FIXME
+        return null;
     }
 }

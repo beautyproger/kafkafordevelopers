@@ -43,60 +43,17 @@ public class UserActionKafkaConsumer {
 
     @EventListener
     public void startEventCycle(ContextRefreshedEvent event){
-        consumerThread.start();
+        // FIXME
     }
 
     @EventListener
     public void stopEventCycle(GracefullyShutdownStartEvent gracefullyShutdownStartEvent){
-        exitFlag = false;
-        consumer.wakeup();
+        // FIXME
     }
 
     void runConsumer() {
-        try {
-            consumer.subscribe(List.of(properties.getTopic()));
-            while (exitFlag) {
-                final ConsumerRecords<String, UserAction> consumerRecords = consumer.poll(Duration.ofMillis(5000));
-                boolean messageProcessingNotFinished;
-                int failCount = 0;
-                do {
-                    try {
-                        processMessages(consumerRecords);
-                        messageProcessingNotFinished = false;
-                    } catch (Exception ex) {
-                        messageProcessingNotFinished = true;
-                        failCount++;
-                        if (failCount > MAX_MESSAGE_PROCESS_RETRY) {
-                            log.error("Unable to process any message after {} retry", MAX_MESSAGE_PROCESS_RETRY, ex);
-                            System.exit(13);
-                        } else {
-                            log.warn("Unable to process messages", ex);
-                            Thread.sleep(1000);
-                        }
-                    }
-                } while (messageProcessingNotFinished);
-                consumer.commitAsync();
-            }
-        } catch (InterruptedException ex) {
-            log.error("{} thread execution interrupted", getClass().getSimpleName(), ex);
-            exitFlag = false;
-        } catch (WakeupException ex) {
-            log.info("{} thread finish execution", getClass().getSimpleName(), ex);
-        } catch (Exception ex) {
-            log.error("kafka internal error when fetching records");
-            System.exit(13);
-        } finally {
-            consumer.unsubscribe();
-        }
+        // FIXME
     }
 
-    private void processMessages(ConsumerRecords<String, UserAction> consumerRecords){
-        log.debug("Records fetched {}", consumerRecords.count());
-        for (ConsumerRecord<String, UserAction> record : consumerRecords) {
-            UserAction value = record.value();
-            if (value != null) {
-                processor.processUserAction(value);
-            }
-        }
-    }
+
 }

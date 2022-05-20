@@ -21,16 +21,7 @@ public class UserActionDeserializer implements Deserializer<UserAction> {
 
     @Override
     public UserAction deserialize(String topic, byte[] data) {
-        if (data.length == 0) {
-            return null;
-        }
-        try {
-            return objectMapper.readValue(data, UserAction.class);
-        } catch (IOException e) {
-            String message = new String(data, StandardCharsets.UTF_8);
-            log.error("Unable to deserialize message {}", message, e);
-            // Этот клиент не поддерживает такой формат сообщения, игнорируем
-            return null;
-        }
+        // FIXME
+        return null;
     }
 }

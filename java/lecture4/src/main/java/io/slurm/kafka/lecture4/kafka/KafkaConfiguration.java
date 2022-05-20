@@ -25,22 +25,15 @@ public class KafkaConfiguration {
 
     @Bean(destroyMethod = "close")
     public Consumer<String, UserAction> createConsumer(KafkaProperties properties, UserActionDeserializer deserializer) {
-        Properties props = new Properties();
-        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, properties.getBootstrapServers());
-        props.put(ConsumerConfig.GROUP_ID_CONFIG, properties.getConsumerGroupId());
-        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,StringDeserializer.class.getName());
-        props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);
-
-        return new KafkaConsumer<>(props, null, deserializer);
+        // FIXME
+        return null;
     }
 
     @Bean(destroyMethod = "close")
     public KafkaProducer<String, UserAction> createProducer(KafkaProperties properties, UserActionSerializer serializer) {
-        Properties props = new Properties();
-        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, properties.getBootstrapServers());
-        props.put(ProducerConfig.CLIENT_ID_CONFIG, properties.getProducerName());
-        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
-        return new KafkaProducer<>(props, null, serializer);
+        // FIXME
+        return null;
+
     }
 }
 

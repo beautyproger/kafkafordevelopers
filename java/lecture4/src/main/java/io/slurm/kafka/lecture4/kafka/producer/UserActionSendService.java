@@ -27,24 +27,6 @@ public class UserActionSendService {
 
 
     public void sendUserAction(UserAction userAction) {
-        ProducerRecord<String, UserAction> record =
-                new ProducerRecord<>(
-                        kafkaProperties.getTopic(),
-                        userAction.getUserId(),
-                        userAction
-                );
-
-        try {
-            producer.send(record).get();
-        } catch (InterruptedException ex) {
-            log.warn("Await interrupted", ex);
-            Thread.currentThread().interrupt();
-        } catch (ExecutionException ex) {
-            if (ex.getCause() instanceof RuntimeException) {
-                throw (RuntimeException)ex.getCause();
-            } else {
-                throw new RuntimeException("Unable to send message in kafka", ex.getCause());
-            }
-        }
+        // FIXME
     }
 }
