@@ -19,6 +19,7 @@
     <modules>
         <module>utils</module>
         <module>lecture4</module>
+        <module>lecture5</module>
     </modules>
 
 
