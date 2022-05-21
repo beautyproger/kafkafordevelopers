@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	kafkaClient := client.NewKafkaClient([]string{"localhost:29092"}, "tests")
+	kafkaClient := client.NewKafkaClient([]string{"localhost:9092"}, "tests")
 	ctx, cancel := context.WithCancel(context.Background())
 	defer func() {
 		cancel()
