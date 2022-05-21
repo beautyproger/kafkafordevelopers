@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	brokers := []string{"localhost:29092"}
+	brokers := []string{"localhost:9092"}
 	kafkaClient := client.NewKafkaClient(brokers, "tests")
 
 	jsonSerializer := serializer.NewJsonSerializer()
