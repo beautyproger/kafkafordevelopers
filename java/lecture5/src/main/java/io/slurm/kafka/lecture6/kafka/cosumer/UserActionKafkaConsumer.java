@@ -119,5 +119,6 @@ public class UserActionKafkaConsumer {
     }
 
     private void processMessages(ConsumerRecords<String, UserAction> consumerRecords) throws InterruptedException {
+        // FIXME
     }
 }

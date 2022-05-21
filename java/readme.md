@@ -16,7 +16,7 @@ git clone https://gitlab.slurm.io/kafkafordevelopers/slurm.git kafkafordeveloper
 
 Скачать актуальный main.
 ```
-git fetch --progress --prune --tags origin &&  git checkout --track -B master remotes/origin/master
+git fetch --progress --prune --tags origin &&  git checkout --track -B main remotes/origin/main
 ```
 
 Для того чтобы запустить Kafka, перейдите в директорию проекта java/go и выполните
