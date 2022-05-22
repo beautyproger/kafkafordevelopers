@@ -5,7 +5,6 @@ go 1.17
 require (
 	github.com/confluentinc/confluent-kafka-go v1.8.2
 	github.com/jackc/pgx/v4 v4.15.0
-	github.com/linkedin/goavro/v2 v2.11.0
 	github.com/segmentio/kafka-go v0.4.30
 	github.com/sirupsen/logrus v1.8.1
 )

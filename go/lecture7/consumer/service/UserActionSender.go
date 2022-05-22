@@ -14,7 +14,7 @@ func NewEntrySender(brokers []string, topic string) *EntrySender {
 }
 
 func (sender *EntrySender) SendUserAction(reached model.LimitReached) error {
-	log.Info(reached)
+	log.Info("Reached action ", reached)
 	//TODO отправлять сообщения
 	return nil
 }

@@ -23,18 +23,37 @@ func NewEntryActor(config *Config) *EntryActor {
 func (receiver *EntryActor) AddEvent(entry *model.Entry) int {
 	receiver.entries.PushFront(entry)
 
-	//TODO если мы превысили CountThreshold то делаем клинап по времени -WindowPeriod чтобы скинуть все что старше интересующего нас интервала.
-	//TODO если посте клинапа у нас все еще больше чем CountThreshold и activationTime.IsZero() то возвращаем ACTIVATION, ставим activationTime в eventTime
-
+	if receiver.entries.Len() > receiver.config.CountThreshold {
+		eventTime := entry.Timestamp
+		receiver.CleanUp(eventTime.Add(-receiver.config.WindowPeriod))
+		if receiver.activationTime.IsZero() && receiver.entries.Len() > receiver.config.CountThreshold {
+			receiver.activationTime = eventTime
+			return ACTIVATION
+		}
+	}
 	return NONE
 }
 
 func (receiver *EntryActor) CleanUp(execTime time.Time) int {
-	//TODO очищаем старые записи
-	//TODO если активейшн тайм раньше execTime то сбрасываем в пустой Time
-	//TODO если лист пуст и активейшн тайм пуст то возвращаем CLEAN, а если нет то DIRTY
+	for e := receiver.entries.Front(); e != nil; {
+		if e.Value.(*model.Entry).Timestamp.Before(execTime) {
+			tmp := e.Next()
+			receiver.entries.Remove(e)
+			e = tmp
+		} else {
+			e = e.Next()
+		}
 
-	return CLEAN
+	}
+	if receiver.activationTime.Before(execTime) {
+		receiver.activationTime = time.Time{}
+	}
+	if receiver.entries.Len() == 0 && receiver.activationTime.IsZero() {
+		return CLEAN
+	} else {
+		return DIRTY
+	}
+
 }
 
 /*

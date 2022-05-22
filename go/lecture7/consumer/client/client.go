@@ -35,18 +35,17 @@ func NewKafkaClient(brokers []string, topic string, rebalanceCallback func(consu
 }
 
 func (client *KafkaClient) Poll(ctx context.Context, timeout int) (*kafka.Message, error) {
-
 	ev := client.c.Poll(timeout)
 	if ev == nil {
 		return nil, nil
 	}
 	switch e := ev.(type) {
 	case *kafka.Message:
-		log.Info("Message on:",
+		log.Info("Message on",
 			e.TopicPartition, string(e.Value))
 		return ev.(*kafka.Message), nil
 	case kafka.Error:
-		log.Info(os.Stderr, "Error:", e.Code(), e)
+		log.Error(os.Stderr, "Error:", e.Code(), e)
 		if e.Code() == kafka.ErrAllBrokersDown {
 			return nil, e
 		}

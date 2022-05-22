@@ -8,7 +8,6 @@ import (
 	log "github.com/sirupsen/logrus"
 	"serialisation/consumer/actor"
 	"serialisation/consumer/client"
-	"serialisation/consumer/model"
 	"serialisation/consumer/service"
 	"time"
 )
@@ -35,34 +34,13 @@ func main() {
 		log.Info("rebalancing event")
 		switch ev := event.(type) {
 		case kafka.AssignedPartitions:
-			log.Info("assigned the partition")
-			log.Info(ev.Partitions)
-			rewindTime := time.Now().Add(-(actorConfig.WindowPeriod * 2))
-			var offsetParts []kafka.TopicPartition
-			for _, partition := range ev.Partitions {
-				var err error
-				partition.Offset = kafka.Offset(rewindTime.UnixMilli())
-				if err != nil {
-					log.Error(err)
-				}
-				offsetParts = append(offsetParts, partition)
-			}
-			log.Info(offsetParts)
-			times, err := consumer.OffsetsForTimes(offsetParts, 1000)
-			if err != nil {
-				log.Error(err.Error())
-			}
-			log.Info(times)
-			err = consumer.Assign(times)
-			if err != nil {
-				log.Error(err.Error())
-			}
+			//TODO перематываем оффсеты
 
 			for _, offset := range times {
 				if err != nil {
 					log.Error(err.Error())
 				}
-				rootActor.OnPartitionAssigned(offset)
+				rootActor.OnPartitionAssigned(offset) //TODO ставим перемотанные оффсеты
 			}
 
 			break
@@ -77,9 +55,10 @@ func main() {
 	kafkaClient := client.NewKafkaClient(brokers, "tests", rebalancingCB)
 	ctx, cancel := context.WithCancel(context.Background())
 	defer func() {
-
+		kafkaClient.Close()
 		cancel()
 	}()
+
 	go func(ctx context.Context) {
 		for {
 			select {
@@ -89,17 +68,10 @@ func main() {
 					log.Error("Couldn't poll a message", err)
 				}
 				if msg != nil {
-					var entry model.Entry
-					err = json.Unmarshal(msg.Value, &entry)
-					if err != nil {
-						log.Error("Couldn't parse a message", err)
-					} else {
-						entry.Timestamp = msg.Timestamp
-						//TODO добавляем ентри до момента ACTIVATION и отправляем limit reached
-					}
+					//TODO вызываем нужный актор с помощью RootActor и при вызове команды активации мы пушим сообщение ReachedLimit
 				}
 			case <-ctx.Done():
-				log.Info("Done listening")
+				fmt.Println("Done listening")
 			}
 		}
 	}(ctx)
