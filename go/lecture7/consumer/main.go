@@ -45,9 +45,7 @@ func main() {
 
 			break
 		case kafka.RevokedPartitions:
-			for _, partition := range ev.Partitions {
-				rootActor.OnPartitionRevoked(partition)
-			}
+			//TODO удаляем оффсеты из акторов
 			break
 		}
 		return nil
