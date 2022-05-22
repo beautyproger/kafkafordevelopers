@@ -25,7 +25,7 @@ func main() {
 	//TODO подключимся к БД
 	serializer := serializer.NewJsonSerializer()
 	//TODO топик настраивается через конфиг
-	kafkaClient := client.NewKafkaClient([]string{"localhost:29092"}, "tests")
+	kafkaClient := client.NewKafkaClient([]string{"localhost:9092"}, "tests")
 	ctx, cancel := context.WithCancel(context.Background())
 	defer func() {
 		cancel()
