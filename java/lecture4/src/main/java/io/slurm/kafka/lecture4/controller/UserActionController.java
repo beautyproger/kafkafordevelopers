@@ -19,7 +19,7 @@ public class UserActionController {
 		this.sendService = sendService;
 	}
 
-	@RequestMapping(value = "/userAction", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/userAction", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public void userAction(
 			@RequestBody UserAction userAction
 	) {
